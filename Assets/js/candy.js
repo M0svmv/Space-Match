@@ -6,6 +6,8 @@ let candies = ["Blue", "Green", "Orange", "Purple", "Red", "Yellow"];
 let board = [];
 let currTile;
 let otherTile;
+let gameStarted = false;
+
 
 window.onload = function () {
     startGame();
@@ -14,8 +16,12 @@ window.onload = function () {
         crushCandy();
         slideCandy();
         generateCandy();
+        
     }, 100);
+
+    
 };
+
 
 function randomCandy() {
     return candies[Math.floor(Math.random() * candies.length)];
@@ -146,11 +152,13 @@ function swapTiles(tile1, tile2) {
         tile2.src = currImg;
 
         let validMove = checkValid();
-        if (!validMove) {
-            // Revert back if no match
-            tile1.src = currImg;
-            tile2.src = otherImg;
-        }
+        if (validMove) {
+    gameStarted = true;
+} else {
+    
+    tile1.src = currImg;
+    tile2.src = otherImg;
+}
     }
 }
 
@@ -163,16 +171,20 @@ function crushCandy() {
             let candy2 = board[r][c + 1];
             let candy3 = board[r][c + 2];
             if (
-                candy1.src === candy2.src &&
-                candy2.src === candy3.src &&
-                !candy1.src.includes("blank")
-            ) {
-                candy1.src = "Assets/imgs/blank.png";
-                candy2.src = "Assets/imgs/blank.png";
-                candy3.src = "Assets/imgs/blank.png";
-                score += 30;
-                document.getElementById("score").innerText = score;
-            }
+    candy1.src === candy2.src &&
+    candy2.src === candy3.src &&
+    !candy1.src.includes("blank")
+) {
+    candy1.src = "Assets/imgs/blank.png";
+    candy2.src = "Assets/imgs/blank.png";
+    candy3.src = "Assets/imgs/blank.png";
+
+    if (gameStarted) {   
+        score += 30;
+        document.getElementById("score").innerText = score;
+    }
+}
+
         }
     }
 
@@ -183,16 +195,20 @@ function crushCandy() {
             let candy2 = board[r + 1][c];
             let candy3 = board[r + 2][c];
             if (
-                candy1.src === candy2.src &&
-                candy2.src === candy3.src &&
-                !candy1.src.includes("blank")
-            ) {
-                candy1.src = "Assets/imgs/blank.png";
-                candy2.src = "Assets/imgs/blank.png";
-                candy3.src = "Assets/imgs/blank.png";
-                score += 30;
-                document.getElementById("score").innerText = score;
-            }
+    candy1.src === candy2.src &&
+    candy2.src === candy3.src &&
+    !candy1.src.includes("blank")
+) {
+    candy1.src = "Assets/imgs/blank.png";
+    candy2.src = "Assets/imgs/blank.png";
+    candy3.src = "Assets/imgs/blank.png";
+
+    if (gameStarted) {   
+        score += 30;
+        document.getElementById("score").innerText = score;
+    }
+}
+
         }
     }
 }
@@ -250,4 +266,3 @@ function checkValid() {
 
     return false;
 }
-
