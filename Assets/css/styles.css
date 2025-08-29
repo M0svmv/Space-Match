@@ -10,10 +10,11 @@ body{
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    margin-top:13vh;
 
 }
 #score-board{
@@ -75,6 +76,9 @@ body{
 }
 
 @media screen and (max-width: 450px) {
+    body{
+        margin-top:18vh;
+    }
     #board{
         
         width: 300px;
@@ -153,3 +157,4 @@ footer a {
 body {
     cursor: url('../imgs/space-match.png'), auto;
 }
+
