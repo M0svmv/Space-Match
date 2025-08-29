@@ -48,26 +48,52 @@ function startGame() {
 }
 
 function addTouchSupport(tile) {
+    let startX, startY;
+
     tile.addEventListener("touchstart", (e) => {
         currTile = e.target;
-    });
-
-    tile.addEventListener("touchmove", (e) => {
-        e.preventDefault();
         let touch = e.touches[0];
-        let target = document.elementFromPoint(touch.clientX, touch.clientY);
-
-        if (target && target.tagName === "IMG") {
-            otherTile = target;
-        }
+        startX = touch.clientX;
+        startY = touch.clientY;
     });
 
-    tile.addEventListener("touchend", () => {
+    tile.addEventListener("touchend", (e) => {
+        if (!currTile) return;
+
+        let touch = e.changedTouches[0];
+        let endX = touch.clientX;
+        let endY = touch.clientY;
+
+        let diffX = endX - startX;
+        let diffY = endY - startY;
+
+
+        let direction;
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            direction = diffX > 0 ? "right" : "left";
+        } else {
+            direction = diffY > 0 ? "down" : "up";
+        }
+
+
+        let coords = currTile.id.split("-");
+        let r = parseInt(coords[0]);
+        let c = parseInt(coords[1]);
+
+        if (direction === "left" && c > 0) otherTile = board[r][c - 1];
+        if (direction === "right" && c < columns - 1) otherTile = board[r][c + 1];
+        if (direction === "up" && r > 0) otherTile = board[r - 1][c];
+        if (direction === "down" && r < rows - 1) otherTile = board[r + 1][c];
+
         if (currTile && otherTile) {
             swapTiles(currTile, otherTile);
         }
+
+        currTile = null;
+        otherTile = null;
     });
 }
+
 
 // ---------- Drag & Drop Functions ----------
 function dragStart() {
@@ -224,3 +250,4 @@ function checkValid() {
 
     return false;
 }
+
